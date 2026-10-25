@@ -9,6 +9,7 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "nuxt": "^3.17.5",
     "vue": "^3.5.16",
     "vue-router": "^4.5.1"
