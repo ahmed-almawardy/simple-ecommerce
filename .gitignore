@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+backend/.env
+backend/store.db
+*.sqlite3
+
+# Nuxt / Node
+node_modules/
+.nuxt/
+.output/
+dist/
+frontend/.env
+
+# Project secrets
+.env
+.env.*.local
+!.env.example
+
+# other
+.jbeval/
+.idea/
+A1.log
+

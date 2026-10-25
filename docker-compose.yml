@@ -1,0 +1,45 @@
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: sqlite:////app/data/store.db
+      AUTH_SECRET: ${AUTH_SECRET:-local-development-secret-change-before-deploy}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      CURRENCY: ${CURRENCY:-egp}
+      PAYMENT_PROVIDER: ${PAYMENT_PROVIDER:-paymob}
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:8000}
+      PAYMOB_BASE_URL: ${PAYMOB_BASE_URL:-https://accept.paymob.com}
+      PAYMOB_SECRET_KEY: ${PAYMOB_SECRET_KEY:-}
+      PAYMOB_PUBLIC_KEY: ${PAYMOB_PUBLIC_KEY:-}
+      PAYMOB_HMAC_SECRET: ${PAYMOB_HMAC_SECRET:-}
+      PAYMOB_PAYMENT_METHODS: ${PAYMOB_PAYMENT_METHODS:-}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-NOVA Home + Tech}
+      SMTP_USE_TLS: ${SMTP_USE_TLS:-true}
+      ENABLE_CART_REMINDERS: ${ENABLE_CART_REMINDERS:-true}
+      CART_REMINDER_AFTER_HOURS: ${CART_REMINDER_AFTER_HOURS:-4}
+      CART_REMINDER_REPEAT_HOURS: ${CART_REMINDER_REPEAT_HOURS:-24}
+    volumes:
+      - store_data:/app/data
+    restart: unless-stopped
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NUXT_PUBLIC_API_BASE: ${NUXT_PUBLIC_API_BASE:-http://localhost:8000/api}
+      NUXT_PUBLIC_CURRENCY: ${NUXT_PUBLIC_CURRENCY:-EGP}
+    depends_on:
+      - api
+    restart: unless-stopped
+volumes:
+  store_data:
